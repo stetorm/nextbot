@@ -16,8 +16,10 @@ const bot = new Bot({
 w.info("Bot token:", tToken);
 
 bot.on('message', function (msg) {
+    var username ='user@next.dom';
+    var passwd = 'mypass';
     console.log(JSON.stringify(msg));
-    webnext.getClockings('sbrega@next.dom', 'stefano1').then(function (clockingsInOut) {
+    webnext.getClockings(username, passwd).then(function (clockingsInOut) {
 
         var index;
         var textMsg = 'Nessuna timbratura';

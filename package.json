@@ -1,0 +1,33 @@
+{
+  "name": "nextbot",
+  "version": "0.0.1",
+  "description": "Telegram Bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gscacco/tbot.git"
+  },
+  "keywords": [
+    "telegram",
+    "bot"
+  ],
+  "author": "S.Brega",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gscacco/tbot/issues"
+  },
+  "homepage": "https://github.com/gscacco/tbot#readme",
+  "dependencies": {
+    "async": "^1.5.2",
+    "cheerio": "^0.20.0",
+    "http": "0.0.0",
+    "mocha": "^2.4.5",
+    "node-telegram-bot": "^0.1.9",
+    "q": "^1.4.1",
+    "request": "^2.69.0",
+    "winston": "^2.1.1"
+  }
+}

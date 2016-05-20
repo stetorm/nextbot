@@ -96,7 +96,7 @@ exports.login = function (username, password) {
                 console.log(error);
                 defer2.reject(error);
             } else {
-                console.log("-Status code:- " + response.statusCode, body);
+               // console.log("-Status code:- " + response.statusCode, body);
                 var cookie = "";
                 response.headers['set-cookie'].forEach(function (entry) {
                     var authToken=entry.match('^\.ASPXAUTH=([^;]*)');
@@ -133,7 +133,7 @@ exports.getClockings = function (cookie) {
             console.log(error);
             functionDefer.reject(error);
         } else {
-            console.log("-Status code last:- " + response.statusCode, body);
+           // console.log("-Status code last:- " + response.statusCode, body);
             var $ = cheerio.load(body);
             var timbrature = []
             $('#DGvisualizzaOrari tr').each(function (index, el) {

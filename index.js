@@ -54,6 +54,7 @@ bot
                     }
                     else{
                         console.log('Token not found, please relogin');
+                        bot.sendMessage({chat_id: message.from.id, text: "Session expired, please relogin"})
 
                     }
                     break;

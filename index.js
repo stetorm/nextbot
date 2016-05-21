@@ -49,9 +49,16 @@ bot
 
                                 var workingTime = utils.calculateDayWorkingTime(clockingsInOut);
                                 var exitTime = utils.calculateExitTime(new Date(),workingTime.millisec);
+
                                 textMsg += "\nHai lavorato: "+ workingTime.hoursMinutes;
-                                textMsg += "\nFai 6 ore alle: "+ exitTime.sixHoursTime;
-                                textMsg += "\nFai 8 ore alle: "+ exitTime.eightHoursTime;
+                                if (workingTime.millisec< 6 * 3600 * 1000)
+                                {
+                                    textMsg += "\nFai 6 ore alle: "+ exitTime.sixHoursTime;
+                                }
+                                if (workingTime.millisec< 8 * 3600 * 1000)
+                                {
+                                    textMsg += "\nFai 8 ore alle: "+ exitTime.eightHoursTime;
+                                }
                             }
 
                             bot.sendMessage({chat_id: message.from.id, text: textMsg})

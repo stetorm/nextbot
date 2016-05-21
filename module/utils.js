@@ -47,7 +47,7 @@ exports.calculateExitTime= function (currDate,workingTimeMsec)
 {
 
     currDate.setSeconds(0);
-    var pauseDuration = (currDate.getHours()> 13 &&  currDate.getMinutes()> 30) ? 1 : 0;
+    var pauseDuration = (currDate.getHours()>= 14 || (currDate.getHours() == 13 &&  currDate.getMinutes())> 30) ? 1 : 0;
 
     var d = moment.duration(workingTimeMsec+pauseDuration*3600000, 'milliseconds');
     var hours = Math.floor(d.asHours());

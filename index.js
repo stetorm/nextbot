@@ -74,7 +74,8 @@ bot
                         bot.sendMessage({chat_id: message.from.id, text: 'Login successful'})
 
                     }, function (err) {
-                        console.log('Error performing login: ' + error);
+                        console.log('Error performing login: ' + err);
+                        bot.sendMessage({chat_id: message.from.id, text: 'Login error'})
                     });
                     break;
             }

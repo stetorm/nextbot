@@ -11,12 +11,10 @@ var Q = require('q');
 var cheerio = require('cheerio');
 
 
-
-
 exports.login = function (username, password) {
 
 
-    console.log('Performing login user: '+username+ ', passwd '  +password);
+    console.log('Performing login user: ' + username + ', passwd ' + password);
 
     var defer1 = Q.defer();
     request({
@@ -37,7 +35,7 @@ exports.login = function (username, password) {
 
         //Check for right status code
         if (response.statusCode !== 200) {
-            var err = 'Invalid Status Code Returned:'+ response.statusCode;
+            var err = 'Invalid Status Code Returned:' + response.statusCode;
             console.log(err);
             defer1.reject(err);
         }
@@ -74,6 +72,7 @@ exports.login = function (username, password) {
 
     defer1.promise.then(function (values) {
 
+        values.login = false;
         request({
             url: 'https://nis.next.it/Login.aspx', //URL to hit
             method: 'POST',
@@ -96,16 +95,24 @@ exports.login = function (username, password) {
                 console.log(error);
                 defer2.reject(error);
             } else {
-               // console.log("-Status code:- " + response.statusCode, body);
+                // console.log("-Status code:- " + response.statusCode, body);
                 var cookie = "";
                 response.headers['set-cookie'].forEach(function (entry) {
-                    var authToken=entry.match('^\.ASPXAUTH=([^;]*)');
+                    var authToken = entry.match('^\.ASPXAUTH=([^;]*)');
+                    values.login = values.login || (authToken != null);
                     cookie = cookie + entry + ";"
                 });
 
 
                 values.cookie = cookie;
-                defer2.resolve(values);
+
+                if (values.login) {
+                    defer2.resolve(values);
+                }
+                else {
+                    defer2.reject();
+                }
+
 
             }
         });
@@ -133,7 +140,7 @@ exports.getClockings = function (cookie) {
             console.log(error);
             functionDefer.reject(error);
         } else {
-           // console.log("-Status code last:- " + response.statusCode, body);
+            // console.log("-Status code last:- " + response.statusCode, body);
             var $ = cheerio.load(body);
             var timbrature = []
             $('#DGvisualizzaOrari tr').each(function (index, el) {

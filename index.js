@@ -39,11 +39,19 @@ bot
 
                             var index;
                             var textMsg = 'Nessuna timbratura';
+                            console.log(JSON.stringify(clockingsInOut));
+
                             if (clockingsInOut.length > 0) {
                                 textMsg = '';
                                 for (index = 0; index < clockingsInOut.length; ++index) {
                                     textMsg = textMsg + clockingsInOut[index].verso + ' ' + clockingsInOut[index].orario + '\n';
                                 }
+
+                                var workingTime = utils.calculateDayWorkingTime(clockingsInOut);
+                                var exitTime = utils.calculateExitTime(new Date(),workingTime.millisec);
+                                textMsg += "\nHai lavorato: "+ workingTime.hoursMinutes;
+                                textMsg += "\nFai 6 ore alle: "+ exitTime.sixHoursTime;
+                                textMsg += "\nFai 8 ore alle: "+ exitTime.eightHoursTime;
                             }
 
                             bot.sendMessage({chat_id: message.from.id, text: textMsg})

@@ -20,7 +20,7 @@ var mapLogin={};
 bot
     .on('message', function (message) {
 
-        if (message.entities  && message.entities[0].type == 'bot_command') {
+        if (message && message.entities  && message.entities[0].type == 'bot_command') {
             var params = message.text.trim().split(' ');
             var cmd = params[0];
             console.log('Params: ' + params);

@@ -93,7 +93,10 @@ bot
         console.log("Received Message: " + message);
     })
     .on('error', function (err) {
-        console.error("Errore" +err);
+        console.error("Error: " +err);
+        bot.start();
+        console.error("Bot Restarted");
+
     })
 
     .start();

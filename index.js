@@ -95,7 +95,7 @@ bot
     .on('error', function (err) {
         console.error("Error: " +err);
         bot.start();
-        console.error("Bot Restarted");
+        console.log("Bot Restarted");
 
     })
 

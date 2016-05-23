@@ -48,7 +48,7 @@ bot
                                 }
 
                                 var workingTime = utils.calculateDayWorkingTime(clockingsInOut);
-                                var exitTime = utils.calculateExitTime(new Date(),workingTime.millisec);
+                                var exitTime = utils.calculateExitTime(utils.getCurrentLocalDate(),workingTime.millisec);
 
                                 textMsg += "\nHai lavorato: "+ workingTime.hoursMinutes;
                                 if (workingTime.millisec< 6 * 3600 * 1000)

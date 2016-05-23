@@ -6,7 +6,7 @@ var getCurrentDateFromHoursMin = function (hoursMin) {
 
 }
 
-var getCurrentLocalDate = function () {
+exports.getCurrentLocalDate = function () {
     return moment(new Date()).local().toDate();
 
 }
@@ -30,7 +30,7 @@ exports.calculateDayWorkingTime = function (clockings) {
 
     var totalSpanMsec = enter.map(function (inDate, index) {
 
-        return exit[index] ? exit[index].getTime() - inDate.getTime() : getCurrentLocalDate() - inDate.getTime();
+        return exit[index] ? exit[index].getTime() - inDate.getTime() : exports.getCurrentLocalDate() - inDate.getTime();
 
     }).reduce(function (total, oneSpan) {
         return total + oneSpan;

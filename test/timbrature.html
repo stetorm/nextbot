@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>
+
+    Next Ingegneria dei Sistemi - FromTo
+
+</title>
+    <link href="Styles.css" rel="stylesheet"/>
+</head>
+
+<body style="margin:0;">
+<form method="post" action="./TimbratureDelGiorno.aspx" id="Form1">
+    <div class="aspNetHidden">
+        <input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE"
+               value="/wEPDwUJNTI0NzQ1OTU5D2QWAgIDD2QWBAIDD2QWBgIBDw8WAh4EVGV4dAUNU3RlZmFubyBCcmVnYWRkAgMPDxYCHwAFJWx1bmVkw6wgNCBhcHJpbGUgMjAxNiAmbmJzcDsgMjI6Mzc6NDlkZAIFDw8WAh4HVmlzaWJsZWhkZAIFD2QWAgIBD2QWAmYPZBYCAgEPPCsACwEADxYIHghEYXRhS2V5cxYAHgtfIUl0ZW1Db3VudAIEHglQYWdlQ291bnQCAR4VXyFEYXRhU291cmNlSXRlbUNvdW50AgRkFgJmD2QWCAIBD2QWBGYPDxYCHwAFBTA5OjIwZGQCAQ8PFgIfAAUHRW50cmF0YWRkAgIPZBYEZg8PFgIfAAUFMTI6MTlkZAIBDw8WAh8ABQZVc2NpdGFkZAIDD2QWBGYPDxYCHwAFBTEzOjUyZGQCAQ8PFgIfAAUHRW50cmF0YWRkAgQPZBYEZg8PFgIfAAUFMTg6MjNkZAIBDw8WAh8ABQZVc2NpdGFkZGQw6nwNZV9Fo1Q84G/T+RAnG6Ucwg398boRGDRYqEwGcg=="/>
+    </div>
+
+    <div class="aspNetHidden">
+
+        <input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="06BCD3E8"/>
+    </div>
+
+
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td width=148 background="image/BannerEx.jpg">
+                <img src="image/LogoBanner.jpg" border=0 height="82"></td>
+        </tr>
+    </table>
+
+
+    <table width="100%" height="18" border="0" cellspacing="0" cellpadding="0">
+        <tr bgcolor="#3e5079">
+            <td width="500">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="BannerLink_NomeUtente"
+                                                    class="TestoBiancoSmall">Stefano Brega</span>
+                &nbsp;&nbsp;&nbsp;<span id="BannerLink_LabelOrario" class="TestoBiancoSmall" style="FONT-WEIGHT:normal">lunedì 4 aprile 2016 &nbsp; 22:37:49</span>
+            </td>
+            <td width="463"></td>
+            <td width="80">
+
+            </td>
+            <td width="60">
+                <a id="BannerLink_LinkMenu" class="LinkMenu1" href="Menu.aspx">
+                    Menu
+                </a>
+            </td>
+        </tr>
+    </table>
+
+
+    <div style="text-align:center;">
+
+        <br/><br/>
+
+        <table align="center">
+            <tr>
+                <td id="Td1" class="CellaIntestazione">
+                    <span id="titolo" class="TestoNero">TIMBRATURE DEL GIORNO</span>
+                </td>
+            </tr>
+            <tr>
+                <td id="Td2" class="CellaCampo">
+
+                    <table cellspacing="0" align="Center" rules="all" border="1" id="DGvisualizzaOrari"
+                           style="border-collapse:collapse;">
+                        <tr class="RigaAzzurraScura">
+                            <td>Orario</td>
+                            <td>Verso</td>
+                        </tr>
+                        <tr class="RigaAzzurra">
+                            <td>09:20</td>
+                            <td>Entrata</td>
+                        </tr>
+                        <tr class="RigaAzzurraAlt">
+                            <td>12:19</td>
+                            <td>Uscita</td>
+                        </tr>
+                        <tr class="RigaAzzurra">
+                            <td>13:52</td>
+                            <td>Entrata</td>
+                        </tr>
+                        <tr class="RigaAzzurraAlt">
+                            <td>18:23</td>
+                            <td>Uscita</td>
+                        </tr>
+                    </table>
+
+
+                </td>
+            </tr>
+        </table>
+
+
+    </div>
+
+</form>
+<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.0.min.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var timbrature = []
+        $('#DGvisualizzaOrari tr').each(function (index, el) {
+            console.log($(el).html());
+            var timbratura = {}
+            var tds = $(el).find('td');
+            timbratura.orario=$(tds[0]).html();
+            timbratura.verso=$(tds[1]).html();
+            timbrature.push(timbratura);
+        })
+
+        console.log(JSON.stringify(timbrature));
+    })
+
+
+</script>
+</body>
+</html>
+

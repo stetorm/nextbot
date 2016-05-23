@@ -55,6 +55,7 @@ exports.calculateExitTime = function (currDate, workingTimeMsec) {
     var d = moment.duration((9 - pauseDuration )* 3600 * 1000 - workingTimeMsec , 'milliseconds');
     var hours = Math.floor(d.asHours());
     var mins = Math.floor(d.asMinutes()) - hours * 60;
+    console.log("Current date: "+currDate);
     console.log("Remaining time to work, hours:" + hours + " mins:" + mins);
 
     sixHoursTime = moment(currDate).add(hours-2, 'hours').add(mins, 'minutes').local().format("HH:mm")

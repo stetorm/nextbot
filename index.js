@@ -65,6 +65,14 @@ bot
 
                         }, function (err) {
                             console.log('Error getting clockings: ' + error);
+                            webnext.login(userData.username, userData.password).then(function (result) {
+                                mapLogin[''+message.from.id] = result;
+                                bot.sendMessage({chat_id: message.from.id, text: 'Login successful'})
+
+                            }, function (err) {
+                                console.log('Error performing login: ' + err);
+                                bot.sendMessage({chat_id: message.from.id, text: 'Login error'})
+                            });
                         })
                     }
                     else{

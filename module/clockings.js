@@ -143,19 +143,26 @@ exports.getClockings = function (cookie) {
             // console.log("-Status code last:- " + response.statusCode, body);
             var $ = cheerio.load(body);
             var timbrature = []
-            $('#DGvisualizzaOrari tr').each(function (index, el) {
-                if (index != 0) {
-                    console.log($(el).html());
-                    var timbratura = {}
-                    var tds = $(el).find('td');
-                    timbratura.orario = $(tds[0]).html();
-                    timbratura.verso = $(tds[1]).html();
-                    timbrature.push(timbratura);
-                }
-            })
+            if ($('#DGvisualizzaOrari')) {
+                $('#DGvisualizzaOrari tr').each(function (index, el) {
+                    if (index != 0) {
+                        console.log($(el).html());
+                        var timbratura = {}
+                        var tds = $(el).find('td');
+                        timbratura.orario = $(tds[0]).html();
+                        timbratura.verso = $(tds[1]).html();
+                        timbrature.push(timbratura);
+                    }
+                })
 
-            console.log(JSON.stringify(timbrature));
-            functionDefer.resolve(timbrature);
+                console.log(JSON.stringify(timbrature));
+                functionDefer.resolve(timbrature);
+
+            }
+            else {
+                console.log("Error: Could not get Clocking page");
+                functionDefer.reject();
+            }
 
         }
     });

@@ -11,7 +11,7 @@ describe('TBot', function() {
     it('Should handle each message received from Telegram Bot', function () {
         //setup
        // clockings=[{"orario":"09:00","verso":"Entrata"}];
-        clockings=[{"orario":"09:23","verso":"Entrata"},{"orario":"12:04","verso":"Uscita"},{"orario":"13:04","verso":"Entrata"}];
+        clockings=[{"orario":"08:23","verso":"Entrata"},{"orario":"12:04","verso":"Uscita"},{"orario":"13:04","verso":"Entrata"},{"orario":"19:23:00","verso":"Uscita"}];
 
         //exercise
         var workingTime = utils.calculateDayWorkingTime(clockings);

@@ -29,8 +29,17 @@ exports.calculateDayWorkingTime = function (clockings) {
 
 
     var totalSpanMsec = enter.map(function (inDate, index) {
+        if (inDate.getHours() < 8 || (inDate.getHours() == 8 && inDate.getMinutes() < 30)) {
+            inDate.setHours(8, 30, 0, 0);
+        }
 
-        return exit[index] ? exit[index].getTime() - inDate.getTime() : exports.getCurrentLocalDate() - inDate.getTime();
+        var exitTime = exit[index] ? exit[index] : exports.getCurrentLocalDate();
+
+        if (exitTime.getHours() >= 19) {
+            exitTime.setHours(19, 0, 0, 0);
+        }
+
+        return exitTime.getTime() - inDate.getTime();
 
     }).reduce(function (total, oneSpan) {
         return total + oneSpan;
@@ -52,14 +61,15 @@ exports.calculateExitTime = function (currDate, workingTimeMsec) {
     currDate.setSeconds(0);
     var pauseDuration = (currDate.getHours() >= 14 || (currDate.getHours() == 13 && currDate.getMinutes()) > 30) ? 1 : 0;
 
-    var d = moment.duration((9 - pauseDuration )* 3600 * 1000 - workingTimeMsec , 'milliseconds');
+    var d = moment.duration((9 - pauseDuration ) * 3600 * 1000 - workingTimeMsec, 'milliseconds');
+    var remainingTimeToWorkMsec =   (9 - pauseDuration ) * 3600 * 1000 - workingTimeMsec;
     var hours = Math.floor(d.asHours());
     var mins = Math.floor(d.asMinutes()) - hours * 60;
-    console.log("Current date: "+currDate);
+    console.log("Current date: " + currDate);
     console.log("Remaining time to work, hours:" + hours + " mins:" + mins);
 
-    sixHoursTime = moment(currDate).add(hours-2, 'hours').add(mins, 'minutes').local().format("HH:mm")
-    eightHoursTime = moment(currDate).add(hours, 'hours').add(mins, 'minutes').local().format("HH:mm")
+    sixHoursTime =  moment(currDate.getTime()+remainingTimeToWorkMsec-2*3600000).format("HH:mm")
+    eightHoursTime = moment(currDate.getTime()+remainingTimeToWorkMsec).format("HH:mm")
 
     result = {'sixHoursTime': sixHoursTime, 'eightHoursTime': eightHoursTime};
 

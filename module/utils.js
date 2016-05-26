@@ -11,7 +11,26 @@ exports.getCurrentLocalDate = function () {
 
 }
 
-exports.calculateDayWorkingTime = function (clockings) {
+var truncStartWorkingTime = function(date)
+{
+    if (date.getHours() < 8 || (date.getHours() == 8 && date.getMinutes() < 30)) {
+        date.setHours(8, 30, 0, 0);
+    }
+    return date;
+
+}
+
+var truncEndWorkingTime = function(date)
+{
+    if (date.getHours() >= 19) {
+        date.setHours(19, 0, 0, 0);
+    }
+    return date;
+
+}
+
+exports.calculateDayWorkingTime = function (nowTime,clockings) {
+
     var enter = clockings.filter(function (clocking) {
 
         return clocking.verso.toLocaleLowerCase() == "entrata"
@@ -29,15 +48,13 @@ exports.calculateDayWorkingTime = function (clockings) {
 
 
     var totalSpanMsec = enter.map(function (inDate, index) {
-        if (inDate.getHours() < 8 || (inDate.getHours() == 8 && inDate.getMinutes() < 30)) {
-            inDate.setHours(8, 30, 0, 0);
-        }
 
-        var exitTime = exit[index] ? exit[index] : exports.getCurrentLocalDate();
+        truncEndWorkingTime(truncStartWorkingTime(nowTime));
 
-        if (exitTime.getHours() >= 19) {
-            exitTime.setHours(19, 0, 0, 0);
-        }
+        var exitTime = exit[index] ? exit[index] : nowTime;
+
+        truncStartWorkingTime(inDate);
+        truncEndWorkingTime(exitTime);
 
         return exitTime.getTime() - inDate.getTime();
 
@@ -74,5 +91,40 @@ exports.calculateExitTime = function (currDate, workingTimeMsec) {
     result = {'sixHoursTime': sixHoursTime, 'eightHoursTime': eightHoursTime};
 
     return result;
+
+}
+
+exports.calculateLaunchBreakTime = function (clockings) {
+
+    var enter = clockings.filter(function (clocking) {
+
+        return clocking.verso.toLocaleLowerCase() == "entrata"
+    }).map(function (clocking) {
+
+        return getCurrentDateFromHoursMin(clocking.orario);
+    });
+
+    var exit = clockings.filter(function (clocking) {
+
+        return clocking.verso.toLocaleLowerCase() == "uscita"
+    }).map(function (clocking) {
+        return getCurrentDateFromHoursMin(clocking.orario);
+    });
+
+
+    var totalSpanMsec = exit.map(function (outDate, index) {
+
+        truncEndWorkingTime(truncStartWorkingTime(nowTime));
+
+        var exitTime = exit[index] ? exit[index] : nowTime;
+
+        truncStartWorkingTime(outDate);
+        truncEndWorkingTime(exitTime);
+
+        return exitTime.getTime() - outDate.getTime();
+
+    }).reduce(function (total, oneSpan) {
+        return total + oneSpan;
+    })
 
 }

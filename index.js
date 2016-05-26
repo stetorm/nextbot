@@ -47,7 +47,7 @@ bot
                                     textMsg = textMsg + clockingsInOut[index].verso + ' ' + clockingsInOut[index].orario + '\n';
                                 }
 
-                                var workingTime = utils.calculateDayWorkingTime(clockingsInOut);
+                                var workingTime = utils.calculateDayWorkingTime(utils.getCurrentLocalDate(),clockingsInOut);
                                 var exitTime = utils.calculateExitTime(utils.getCurrentLocalDate(),workingTime.millisec);
 
                                 textMsg += "\nHai lavorato: "+ workingTime.hoursMinutes;

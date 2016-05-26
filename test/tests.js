@@ -1,26 +1,42 @@
-const utils=require('../module/utils');
+const utils = require('../module/utils');
 
 var assert = require('assert');
 
 
+//156387943:AAEYk47F3oy-IhhC0_EwKb_r9kLqGGLVwDo
 
+describe('TBot', function () {
+    describe('#handleBotMessage', function () {
+        it('Should handle each message received from Telegram Bot', function () {
+            //setup
+            // clockings=[{"orario":"09:00","verso":"Entrata"}];
+            clockings = [{"orario": "08:00", "verso": "Entrata"}];
 
+            //exercise
+            var nowDate = new Date();
+            nowDate.setHours(8, 15, 0, 0);
+            var workingTime = utils.calculateDayWorkingTime(nowDate, clockings);
+            var exitTime = utils.calculateExitTime(nowDate, workingTime.millisec);
+            console.log("Working time: " + JSON.stringify(workingTime));
+            console.log("Exit time: " + JSON.stringify(exitTime));
 
-describe('TBot', function() {
-  describe('#handleBotMessage', function () {
-    it('Should handle each message received from Telegram Bot', function () {
-        //setup
-       // clockings=[{"orario":"09:00","verso":"Entrata"}];
-        clockings=[{"orario":"08:23","verso":"Entrata"},{"orario":"12:04","verso":"Uscita"},{"orario":"13:04","verso":"Entrata"},{"orario":"19:23:00","verso":"Uscita"}];
+            //verify
+            assert.equal(result, 5);
+        });
 
-        //exercise
-        var workingTime = utils.calculateDayWorkingTime(clockings);
-        var exitTime = utils.calculateExitTime(new Date(),workingTime.millisec);
-        console.log("Working time: "+JSON.stringify(workingTime));
-        console.log("Exit time: "+JSON.stringify(exitTime));
+        it.only('Should ', function () {
+            //setup
+            // clockings=[{"orario":"09:00","verso":"Entrata"}];
+            clockings = [{"orario": "08:00", "verso": "Entrata"},{"orario": "13:00", "verso": "Uscita"},{"orario": "13:50", "verso": "Entrata"},{"orario": "17:00", "verso": "Uscita"}];
 
-        //verify
-      assert.equal(result,5);
+            //exercise
+            var nowDate = new Date();
+            nowDate.setHours(8, 15, 0, 0);
+            var workingTime = utils.calculateDayWorkingTime(nowDate, clockings);
+
+            //verify
+            assert.equal(result, 5);
+        });
+
     });
-  });
 });

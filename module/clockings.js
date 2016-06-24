@@ -6,6 +6,7 @@
 var request = require('request');
 var https = require('https');
 var Q = require('q');
+const utils = require('./utils');
 
 
 var cheerio = require('cheerio');
@@ -169,4 +170,45 @@ exports.getClockings = function (cookie) {
 
 
     return functionDefer.promise;
+}
+
+
+exports.oggi = function (textClockingsInOut) {
+
+
+    if (textClockingsInOut.length > 0) {
+        var textMsg = '';
+        for (index = 0; index < textClockingsInOut.length; ++index) {
+            textMsg = textMsg + textClockingsInOut[index].verso + ' ' + textClockingsInOut[index].orario + '\n';
+        }
+
+        var clockingsInOut = utils.convClockingToDate(textClockingsInOut);
+
+        var workingTime = utils.calculateDayWorkingTime(utils.getCurrentLocalDate(), clockingsInOut);
+        var exitTime = utils.calculateExitTime(utils.getCurrentLocalDate(), workingTime.millisec);
+
+        var pauseData = utils.calculateLaunchBreak(new Date(), clockingsInOut);
+
+
+        if (pauseData.inProgress) {
+            textMsg += "\nPausa Pranzo in corso da: " + utils.convertMsec2HoursMin(pauseData.lengthMsec).hoursMinutes;
+        }
+        else if (pauseData.done) {
+            textMsg += "\nDurata pausa pranzo: " + utils.convertMsec2HoursMin(pauseData.lengthMsec).hoursMinutes;
+        }
+
+
+        textMsg += "\nHai lavorato: " + workingTime.hoursMinutes;
+        if (workingTime.millisec < 6 * 3600 * 1000) {
+            textMsg += "\nFai 6 ore alle: " + exitTime.sixHoursTime;
+        }
+        if (workingTime.millisec < 8 * 3600 * 1000) {
+            textMsg += "\nFai 8 ore alle: " + exitTime.eightHoursTime;
+        }
+
+
+    }
+
+    return textMsg;
+
 }

@@ -92,11 +92,12 @@ exports.convertMsec2HoursMin = function (msec) {
 
 exports.calculateLaunchBreak = function (nowTime, clockingsDate) {
 
-    var result = {'lengthMsec': 0, 'inProgress': false}
+    var result = {'lengthMsec': 0, 'inProgress': false,'done':false}
 
-    if (clockingsDate.exit) {
+    if (clockingsDate.exit.length>0) {
         var pauseList = clockingsDate.exit.filter(function (date) {
 
+            // Seleziona le timbrature d'uscita nell'intervallo ammissibile per l'inizio della pausa pranzo
             var pauseStartTime = new Date();
             pauseStartTime.setHours(12, 0, 0, 0);
 
@@ -107,7 +108,9 @@ exports.calculateLaunchBreak = function (nowTime, clockingsDate) {
 
         }).map(function (outDate, index) {
 
+            // c'� la timbratura d'ingresso corrispondente?
             result.inProgress = clockingsDate.enter[index + 1] == undefined;
+            result.done = !result.inProgress;
             var endTime = result.inProgress ? nowTime : clockingsDate.enter[index + 1] ;
 
             return endTime.getTime() - outDate.getTime();

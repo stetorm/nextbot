@@ -1,4 +1,5 @@
 const utils = require('../module/utils');
+const webnext = require('../module/clockings.js');
 
 var assert = require('assert');
 
@@ -72,9 +73,10 @@ describe('TBot', function () {
             //verify
             assert.equal(false, pauseData.inProgress);
             assert.equal(3000000, pauseData.lengthMsec);
+            assert.equal(true, pauseData.done);
         });
 
-        it.only('Pausa Pranzo In corso', function () {
+        it('Pausa Pranzo In corso', function () {
             //setup
             clockings = [{"orario": "08:00", "verso": "Entrata"},{"orario": "13:00", "verso": "Uscita"}];
 
@@ -93,6 +95,37 @@ describe('TBot', function () {
             assert.equal(true, pauseData.inProgress);
             assert.equal(30 * 60 * 1000, pauseData.lengthMsec);
         });
+
+        it('Oggi finito', function () {
+            //setup
+            clockings = [{"orario": "08:00", "verso": "Entrata"},{"orario": "13:00", "verso": "Uscita"},{"orario": "13:50", "verso": "Entrata"},{"orario": "17:00", "verso": "Uscita"}];
+
+            //exercise
+            var nowDate = new Date();
+
+            webnext.oggi(clockings);
+
+
+            //verify
+            assert.equal(true, true);
+        });
+
+        it.only('Oggi in corso', function () {
+            //setup
+            clockings = [{"orario": "09:15", "verso": "Entrata"},{"orario": "12:34", "verso": "Uscita"},{"orario": "13:38", "verso": "Entrata"}];
+
+            //exercise
+            var nowDate = new Date();
+
+            text = webnext.oggi(clockings);
+
+            console.log("oggi :"+text);
+
+
+            //verify
+            assert.equal(true, true);
+        });
+
 
 
     });

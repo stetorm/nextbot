@@ -1,5 +1,4 @@
 const Bot = require('node-telegram-bot');
-const utils = require('./module/utils');
 const w = require('winston');
 const webnext = require('./module/clockings.js');
 
@@ -12,6 +11,7 @@ const bot = new Bot({
     token: tToken
 });
 
+// 156387943:AAEYk47F3oy-IhhC0_EwKb_r9kLqGGLVwDo
 
 w.info("Bot token:", tToken);
 
@@ -35,31 +35,15 @@ bot
                 case "/oggi":
                     var userData = mapLogin[''+message.from.id]
                     if (userData) {
-                        webnext.getClockings(userData.cookie).then(function (clockingsInOut) {
+                        webnext.getClockings(userData.cookie).then(function (textClockingsInOut) {
 
                             var index;
                             var textMsg = 'Nessuna timbratura';
-                            console.log(JSON.stringify(clockingsInOut));
+                            console.log(JSON.stringify(textClockingsInOut));
 
-                            if (clockingsInOut.length > 0) {
-                                textMsg = '';
-                                for (index = 0; index < clockingsInOut.length; ++index) {
-                                    textMsg = textMsg + clockingsInOut[index].verso + ' ' + clockingsInOut[index].orario + '\n';
-                                }
 
-                                var workingTime = utils.calculateDayWorkingTime(utils.getCurrentLocalDate(),clockingsInOut);
-                                var exitTime = utils.calculateExitTime(utils.getCurrentLocalDate(),workingTime.millisec);
-
-                                textMsg += "\nHai lavorato: "+ workingTime.hoursMinutes;
-                                if (workingTime.millisec< 6 * 3600 * 1000)
-                                {
-                                    textMsg += "\nFai 6 ore alle: "+ exitTime.sixHoursTime;
-                                }
-                                if (workingTime.millisec< 8 * 3600 * 1000)
-                                {
-                                    textMsg += "\nFai 8 ore alle: "+ exitTime.eightHoursTime;
-                                }
-                            }
+                            textMsg = webnext.oggi(textClockingsInOut);
+                            console.log("Oggi: "+textMsg);
 
                             bot.sendMessage({chat_id: message.from.id, text: textMsg})
 

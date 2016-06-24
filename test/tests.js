@@ -112,7 +112,7 @@ describe('TBot', function () {
 
         it.only('Oggi in corso', function () {
             //setup
-            clockings = [{"orario": "09:15", "verso": "Entrata"},{"orario": "12:34", "verso": "Uscita"},{"orario": "13:38", "verso": "Entrata"}];
+            clockings = [{"orario": "09:15", "verso": "Entrata"},{"orario": "12:34", "verso": "Uscita"},{"orario": "13:08", "verso": "Entrata"}];
 
             //exercise
             var nowDate = new Date();
